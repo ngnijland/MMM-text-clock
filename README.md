@@ -7,3 +7,4 @@
 - [ ] Add configuration to README
 - [ ] Add contribution guide
 - [ ] Add internationalization (add Dutch laguage)
+- [ ] Add module to third party module list of MagicMirror
