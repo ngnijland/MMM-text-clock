@@ -1,0 +1,35 @@
+{
+  "name": "mmm-text-clock",
+  "version": "1.0.0",
+  "description": "A clock which shows its time as text.",
+  "main": "MMM-text-clock.js",
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ngnijland/MMM-text-clock.git"
+  },
+  "keywords": [
+    "MagicMirror",
+    "smar",
+    "mirror",
+    "clock",
+    "text",
+    "clock",
+    "word",
+    "clock"
+  ],
+  "author": "Niek Nijland <ngnijland@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ngnijland/MMM-text-clock/issues"
+  },
+  "homepage": "https://github.com/ngnijland/MMM-text-clock#readme",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "prettier": "^2.0.5"
+  }
+}
