@@ -1,0 +1,15 @@
+.MMM-text-clock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
+  grid-gap: 1rem 1.5rem;
+}
+
+.letter {
+  text-transform: uppercase;
+}
