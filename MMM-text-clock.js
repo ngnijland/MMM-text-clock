@@ -156,7 +156,7 @@ Module.register('MMM-text-clock', {
 
     setInterval(() => {
       self.updateDom();
-    }, 30000);
+    }, 10000);
 
     self.updateDom();
   },
