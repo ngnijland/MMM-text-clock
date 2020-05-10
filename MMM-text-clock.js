@@ -226,7 +226,7 @@ Module.register('MMM-text-clock', {
     this.letters.forEach((letter, index) => {
       const element = document.createElement('span');
 
-      element.className = `letter medium light ${
+      element.className = `letter medium ${
         letterIndexes.includes(index) ? 'bright' : 'dimmed'
       }`;
       element.innerHTML = letter;
