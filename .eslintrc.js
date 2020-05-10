@@ -1,7 +1,7 @@
 module.exports = {
   rules: {
     indent: ['error', 2],
-    quotes: ['error', 'single'],
+    quotes: ['error', 'single', { avoidEscape: true }],
     'max-len': ['error', 250],
     curly: 'error',
     camelcase: ['error', { properties: 'never' }],
