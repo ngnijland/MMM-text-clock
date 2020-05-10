@@ -36,7 +36,7 @@ modules: [
 - [x] Add description to README
 - [x] Add screenshots to README
 - [x] Add configuration to README
-- [ ] Add module to third party module list of MagicMirror
+- [x] Add module to third party module list of MagicMirror
 - [ ] Add contribution guide
 - [ ] Make styling work for every position available in MagicMirror software
 - [ ] Add compact mode
