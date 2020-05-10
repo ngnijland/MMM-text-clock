@@ -37,7 +37,7 @@ modules: [
 - [x] Add screenshots to README
 - [x] Add configuration to README
 - [x] Add module to third party module list of MagicMirror
-- [ ] Add contribution guide
+- [x] Add contribution guide
 - [ ] Make styling work for every position available in MagicMirror software
 - [ ] Add compact mode
 - [ ] Add internationalization (add Dutch laguage)
