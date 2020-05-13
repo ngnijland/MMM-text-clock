@@ -49,9 +49,9 @@ modules: [
 ]
 ```
 
-The following options are configurable:
+The following configurations are available:
 
-Option    | Type                       | Default value | Description
+Config    | Type                       | Default value | Description
 :---------|:---------------------------|:--------------|:------------
 `compact` | `boolean`                  | `false`       | Compact mode only shows highlighted letters
 `size`    | `small \| medium \| large` | `medium`      | The size of the clock
