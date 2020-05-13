@@ -29,7 +29,27 @@ modules: [
 ]
 ```
 
-**NOTE:** This module works best at the `middle_center` position of MagicMirror.
+## Configuration
+
+Configure this module in your MagicMirror config file which is located at `config/config.js` in the MagicMirror repository. An example config for this module:
+
+```javascript
+modules: [
+  {
+    module: "MMM-text-clock",
+    position: "middle_center",
+    config: {
+      // Options
+    }
+  }
+]
+```
+
+The following options are configurable:
+
+Option | Type                           | Default value | Description
+:------|:-------------------------------|:--------------|:------------
+`size` | enum `small | medium | large` | `medium`      | The size of the clock
 
 ## Todo
 - [x] Code text clock (English)
@@ -38,7 +58,7 @@ modules: [
 - [x] Add configuration to README
 - [x] Add module to third party module list of MagicMirror
 - [x] Add contribution guide
-- [ ] Make styling work for every position available in MagicMirror software
+- [x] Make styling work for every position available in MagicMirror software
 - [ ] Add compact mode
 - [ ] Add internationalization (add Dutch laguage)
 - [ ] Add documentation on how to contribute a new language

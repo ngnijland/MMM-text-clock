@@ -7,7 +7,7 @@
 
 Module.register('MMM-text-clock', {
   defaults: {
-    text: 'Hello world',
+    size: 'medium',
   },
 
   letters: [
@@ -150,7 +150,20 @@ Module.register('MMM-text-clock', {
   },
 
   start: function () {
-    Log.info('Starting module: ' + this.name);
+    Log.info(`Starting module: ${this.name}`);
+
+    this.size = this.config.size;
+
+    if (
+      this.size !== 'small' &&
+      this.size !== 'medium' &&
+      this.size !== 'large'
+    ) {
+      Log.error(
+        `${this.size} is not a supported value. Please use "small", "medium" or "large". Falling back to "medium".`
+      );
+      this.size = 'medium';
+    }
 
     const self = this;
 
@@ -221,12 +234,30 @@ Module.register('MMM-text-clock', {
 
     grid.className = 'grid';
 
+    let gridGap;
+
+    switch (this.size) {
+      case 'small': {
+        gridGap = '0.75rem 1.125rem';
+        break;
+      }
+      case 'large': {
+        gridGap = '2rem 2.25rem';
+        break;
+      }
+      default: {
+        gridGap = '1rem 1.5rem';
+      }
+    }
+
+    grid.style.gridGap = gridGap;
+
     const letterIndexes = this.createActiveLetterList(new Date());
 
     this.letters.forEach((letter, index) => {
       const element = document.createElement('span');
 
-      element.className = `letter medium ${
+      element.className = `letter ${this.size} ${
         letterIndexes.includes(index) ? 'bright' : 'dimmed'
       }`;
       element.innerHTML = letter;
