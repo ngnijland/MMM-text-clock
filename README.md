@@ -4,6 +4,10 @@ This MagicMirror module is a clock which shows the time as text.
 
 ![Screenshot of module](https://github.com/ngnijland/MMM-text-clock/raw/master/screenshots/MMM-text-clock-screenshot.png)
 
+Compact mode:
+
+![Screenshot of module in compact mode](https://github.com/ngnijland/MMM-text-clock/raw/master/screenshots/MMM-text-clock-screenshot-compact.png)
+
 ## Installation
 
 1. Go to the MagicMirror modules folder
