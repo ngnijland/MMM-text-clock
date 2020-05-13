@@ -7,6 +7,7 @@
 
 Module.register('MMM-text-clock', {
   defaults: {
+    compact: false,
     size: 'medium',
   },
 
@@ -152,7 +153,13 @@ Module.register('MMM-text-clock', {
   start: function () {
     Log.info(`Starting module: ${this.name}`);
 
+    this.compact = this.config.compact;
     this.size = this.config.size;
+
+    if (typeof this.compact !== 'boolean') {
+      Log.error(`"${this.compact}" is not a boolean. Falling back to "false".`);
+      this.compact = false;
+    }
 
     if (
       this.size !== 'small' &&
@@ -160,7 +167,7 @@ Module.register('MMM-text-clock', {
       this.size !== 'large'
     ) {
       Log.error(
-        `${this.size} is not a supported value. Please use "small", "medium" or "large". Falling back to "medium".`
+        `"${this.size}" is not a supported value. Please use "small", "medium" or "large". Falling back to "medium".`
       );
       this.size = 'medium';
     }
@@ -174,7 +181,7 @@ Module.register('MMM-text-clock', {
     self.updateDom();
   },
 
-  createActiveLetterList: function (time) {
+  getActiveWords: function (time) {
     const wordIndexes = [];
 
     wordIndexes.push(this.wordMap.it);
@@ -226,44 +233,58 @@ Module.register('MMM-text-clock', {
 
     wordIndexes.push(this.wordMap[textHour > 12 ? textHour - 12 : textHour]);
 
-    return wordIndexes.reduce((acc, word) => [...acc, ...word], []);
+    return wordIndexes;
   },
 
   getDom: function () {
     const grid = document.createElement('div');
+    grid.classList.add('letters');
+    grid.classList.add(this.compact ? 'bright' : 'dimmed');
+    grid.classList.add(this.size);
 
-    grid.className = 'grid';
+    if (!this.compact) {
+      grid.style.display = 'grid';
+      grid.style.gridTemplateColumns = 'repeat(11, 1fr)';
 
-    let gridGap;
+      let gridGap;
 
-    switch (this.size) {
-      case 'small': {
-        gridGap = '0.75rem 1.125rem';
-        break;
+      switch (this.size) {
+        case 'small': {
+          gridGap = '0.75rem 1.125rem';
+          break;
+        }
+        case 'large': {
+          gridGap = '2rem 2.25rem';
+          break;
+        }
+        default: {
+          gridGap = '1rem 1.5rem';
+        }
       }
-      case 'large': {
-        gridGap = '2rem 2.25rem';
-        break;
-      }
-      default: {
-        gridGap = '1rem 1.5rem';
-      }
+
+      grid.style.gridGap = gridGap;
     }
 
-    grid.style.gridGap = gridGap;
+    const words = this.getActiveWords(new Date());
 
-    const letterIndexes = this.createActiveLetterList(new Date());
+    if (this.compact) {
+      grid.textContent = words
+        .map((word) => word.map((letter) => this.letters[letter]).join(''))
+        .join(' ');
+    } else {
+      this.letters.forEach((letter, index) => {
+        const letterIndexes = words.reduce(
+          (acc, word) => [...acc, ...word],
+          []
+        );
+        const element = document.createElement('span');
 
-    this.letters.forEach((letter, index) => {
-      const element = document.createElement('span');
+        letterIndexes.includes(index) && element.classList.add('bright');
+        element.textContent = letter;
 
-      element.className = `letter ${this.size} ${
-        letterIndexes.includes(index) ? 'bright' : 'dimmed'
-      }`;
-      element.innerHTML = letter;
-
-      grid.appendChild(element);
-    });
+        grid.appendChild(element);
+      });
+    }
 
     return grid;
   },

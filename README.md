@@ -9,7 +9,7 @@ This MagicMirror module is a clock which shows the time as text.
 1. Go to the MagicMirror modules folder
 
 ```bash
-cd ~/MagicMirror/modules`
+cd ~/MagicMirror/modules
 ```
 
 2. Clone this repository
@@ -47,9 +47,10 @@ modules: [
 
 The following options are configurable:
 
-Option | Type                            | Default value | Description
-:------|:--------------------------------|:--------------|:------------
-`size` | enum `small \| medium \| large` | `medium`      | The size of the clock
+Option    | Type                       | Default value | Description
+:---------|:---------------------------|:--------------|:------------
+`compact` | `boolean`                  | `false`       | Compact mode only shows highlighted letters
+`size`    | `small \| medium \| large` | `medium`      | The size of the clock
 
 ## Todo
 - [x] Code text clock (English)
@@ -59,6 +60,6 @@ Option | Type                            | Default value | Description
 - [x] Add module to third party module list of MagicMirror
 - [x] Add contribution guide
 - [x] Make styling work for every position available in MagicMirror software
-- [ ] Add compact mode
+- [x] Add compact mode
 - [ ] Add internationalization (add Dutch laguage)
 - [ ] Add documentation on how to contribute a new language

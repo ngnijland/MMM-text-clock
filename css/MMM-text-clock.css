@@ -4,11 +4,6 @@
   justify-content: center;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(11, 1fr);
-}
-
-.letter {
+.letters {
   text-transform: uppercase;
 }
