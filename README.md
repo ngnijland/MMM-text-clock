@@ -47,9 +47,9 @@ modules: [
 
 The following options are configurable:
 
-Option | Type                           | Default value | Description
-:------|:-------------------------------|:--------------|:------------
-`size` | enum `small | medium | large` | `medium`      | The size of the clock
+Option | Type                            | Default value | Description
+:------|:--------------------------------|:--------------|:------------
+`size` | enum `small \| medium \| large` | `medium`      | The size of the clock
 
 ## Todo
 - [x] Code text clock (English)
