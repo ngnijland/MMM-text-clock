@@ -191,12 +191,7 @@ Module.register('MMM-text-clock', {
     const hours = time.getHours();
     const minutes = time.getMinutes();
 
-    if ((minutes >= 0 && minutes <= 2) || (minutes >= 58 && minutes <= 59)) {
-      wordIndexes.push(this.wordMap.oclock);
-    } else if (
-      (minutes >= 3 && minutes <= 7) ||
-      (minutes >= 53 && minutes <= 57)
-    ) {
+    if ((minutes >= 3 && minutes <= 7) || (minutes >= 53 && minutes <= 57)) {
       wordIndexes.push(this.wordMap.five);
     } else if (
       (minutes >= 8 && minutes <= 12) ||
@@ -232,6 +227,10 @@ Module.register('MMM-text-clock', {
     const textHour = minutes >= 0 && minutes <= 30 ? hours : hours + 1;
 
     wordIndexes.push(this.wordMap[textHour > 12 ? textHour - 12 : textHour]);
+
+    if ((minutes >= 0 && minutes <= 2) || (minutes >= 58 && minutes <= 59)) {
+      wordIndexes.push(this.wordMap.oclock);
+    }
 
     return wordIndexes;
   },
