@@ -40,11 +40,11 @@ Module.register('MMM-text-clock', {
     'n',
     't',
     'y',
+    '-',
     'f',
     'i',
     'v',
     'e',
-    'x',
     'h',
     'a',
     'l',
@@ -130,7 +130,8 @@ Module.register('MMM-text-clock', {
     a: [11],
     quarter: [13, 14, 15, 16, 17, 18, 19],
     twenty: [22, 23, 24, 25, 26, 27],
-    five: [28, 29, 30, 31],
+    five: [29, 30, 31, 32],
+    twentyfive: [22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32],
     half: [33, 34, 35, 36],
     ten: [38, 39, 40],
     past: [44, 45, 46, 47],
@@ -217,8 +218,7 @@ Module.register('MMM-text-clock', {
       (minutes >= 23 && minutes <= 27) ||
       (minutes >= 33 && minutes <= 37)
     ) {
-      wordIndexes.push(this.wordMap.twenty);
-      wordIndexes.push(this.wordMap.five);
+      wordIndexes.push(this.wordMap.twentyfive);
     } else if (minutes >= 28 && minutes <= 32) {
       wordIndexes.push(this.wordMap.half);
     }
