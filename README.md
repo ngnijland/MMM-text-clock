@@ -33,6 +33,14 @@ modules: [
 ]
 ```
 
+## Language
+
+The text clock will match it's language to MagicMirror's `language` config (documentation [here](https://docs.magicmirror.builders/getting-started/configuration.html#raspberry-specific)). When the configured language is not supported the module will fall back to English.
+
+Supported languages:
+- English
+- Dutch
+
 ## Configuration
 
 Configure this module in your MagicMirror config file which is located at `config/config.js` in the MagicMirror repository. An example config for this module:
