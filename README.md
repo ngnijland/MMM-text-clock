@@ -65,5 +65,5 @@ Config    | Type                       | Default value | Description
 - [x] Add contribution guide
 - [x] Make styling work for every position available in MagicMirror software
 - [x] Add compact mode
-- [ ] Add internationalization (add Dutch laguage)
-- [ ] Add documentation on how to contribute a new language
+- [x] Add internationalization (add Dutch laguage)
+- [x] Add documentation on how to contribute a new language
