@@ -36,7 +36,7 @@ module.exports = function (time) {
     wordIndexes.push(this.wordMap.moins);
   }
 
-  const displayHour = minutes >= 33 && minutes <= 57 ? hours + 1 : hours;
+  const displayHour = minutes >= 33 ? hours + 1 : hours;
 
   if (displayHour === 12) {
     wordIndexes.push(this.wordMap.midi);
