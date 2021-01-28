@@ -40,6 +40,7 @@ The text clock will match it's language to MagicMirror's `language` config (docu
 Supported languages:
 - English
 - Dutch
+- French
 
 ## Configuration
 
