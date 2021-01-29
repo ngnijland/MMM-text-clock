@@ -1,50 +1,37 @@
 module.exports = function (time) {
   const wordIndexes = [];
+  const display = this.displayTime(time);
 
   const hours = time.getHours();
   const minutes = time.getMinutes();
-  const displayHour = minutes >= 33 ? hours + 1 : hours;
 
-  if (displayHour % 12 === 1) {
+  if (display.hours_to_display === 1) {
     wordIndexes.push(this.wordMap.esla);
   } else {
     wordIndexes.push(this.wordMap.sonlas);
   }
 
-  if ((minutes >= 3 && minutes <= 7) || (minutes >= 53 && minutes <= 57)) {
+  if (Math.abs(display.minutes_to_display) === 5) {
     wordIndexes.push(this.wordMap.cinco);
-  } else if (
-    (minutes >= 8 && minutes <= 12) ||
-    (minutes >= 48 && minutes <= 52)
-  ) {
+  } else if (Math.abs(display.minutes_to_display) === 10) {
     wordIndexes.push(this.wordMap.diez);
-  } else if (minutes >= 13 && minutes <= 17) {
+  } else if (Math.abs(display.minutes_to_display) === 15) {
     wordIndexes.push(this.wordMap.quarto);
-  } else if (minutes >= 43 && minutes <= 47) {
-    wordIndexes.push(this.wordMap.quarto);
-  } else if (
-    (minutes >= 18) & (minutes <= 22) ||
-    (minutes >= 38 && minutes <= 42)
-  ) {
+  } else if (Math.abs(display.minutes_to_display) === 20) {
     wordIndexes.push(this.wordMap.veinte);
-  } else if (
-    (minutes >= 23 && minutes <= 27) ||
-    (minutes >= 33 && minutes <= 37)
-  ) {
+  } else if (Math.abs(display.minutes_to_display) === 25) {
     wordIndexes.push(this.wordMap.veinticinco);
-  } else if (minutes >= 28 && minutes <= 32) {
+  } else if (display.minutes_to_display === 30) {
     wordIndexes.push(this.wordMap.media);
   }
 
-  if (minutes >= 3 && minutes <= 32) {
+  if (display.minutes_to_display > 0) {
     wordIndexes.push(this.wordMap.y);
-  } else if (minutes >= 33 && minutes <= 57) {
+  } else if (display.minutes_to_display < 0) {
     wordIndexes.push(this.wordMap.menos);
   }
 
-  wordIndexes.push(
-    this.wordMap[displayHour > 12 ? displayHour - 12 : displayHour]
-  );
+  wordIndexes.push(this.wordMap[display.hours_to_display]);
 
   return wordIndexes;
 };
