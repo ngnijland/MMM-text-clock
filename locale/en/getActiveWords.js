@@ -1,5 +1,6 @@
 module.exports = function (time) {
   const wordIndexes = [];
+  const display = this.displayTime(time);
 
   wordIndexes.push(this.wordMap.it);
   wordIndexes.push(this.wordMap.is);
@@ -7,46 +8,30 @@ module.exports = function (time) {
   const hours = time.getHours();
   const minutes = time.getMinutes();
 
-  if ((minutes >= 3 && minutes <= 7) || (minutes >= 53 && minutes <= 57)) {
+  if (Math.abs(display.minutes_to_display) === 5) {
     wordIndexes.push(this.wordMap.five);
-  } else if (
-    (minutes >= 8 && minutes <= 12) ||
-    (minutes >= 48 && minutes <= 52)
-  ) {
+  } else if (Math.abs(display.minutes_to_display) === 10) {
     wordIndexes.push(this.wordMap.ten);
-  } else if (
-    (minutes >= 13 && minutes <= 17) ||
-    (minutes >= 43 && minutes <= 47)
-  ) {
+  } else if (Math.abs(display.minutes_to_display) === 15) {
     wordIndexes.push(this.wordMap.a);
     wordIndexes.push(this.wordMap.quarter);
-  } else if (
-    (minutes >= 18) & (minutes <= 22) ||
-    (minutes >= 38 && minutes <= 42)
-  ) {
+  } else if (Math.abs(display.minutes_to_display) === 20) {
     wordIndexes.push(this.wordMap.twenty);
-  } else if (
-    (minutes >= 23 && minutes <= 27) ||
-    (minutes >= 33 && minutes <= 37)
-  ) {
+  } else if (Math.abs(display.minutes_to_display) === 25) {
     wordIndexes.push(this.wordMap.twentyfive);
-  } else if (minutes >= 28 && minutes <= 32) {
+  } else if (display.minutes_to_display === 30) {
     wordIndexes.push(this.wordMap.half);
   }
 
-  if (minutes >= 3 && minutes <= 32) {
+  if (display.minutes_to_display > 0) {
     wordIndexes.push(this.wordMap.past);
-  } else if (minutes >= 33 && minutes <= 57) {
+  } else if (display.minutes_to_display < 0) {
     wordIndexes.push(this.wordMap.to);
-  }
-
-  const textHour = minutes >= 0 && minutes <= 30 ? hours : hours + 1;
-
-  wordIndexes.push(this.wordMap[textHour > 12 ? textHour - 12 : textHour]);
-
-  if ((minutes >= 0 && minutes <= 2) || (minutes >= 58 && minutes <= 59)) {
+  } else {
     wordIndexes.push(this.wordMap.oclock);
   }
+
+  wordIndexes.push(this.wordMap[display.hours_to_display]);
 
   return wordIndexes;
 };
