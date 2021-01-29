@@ -2,9 +2,6 @@ module.exports = function (time) {
   const wordIndexes = [];
   const display = this.displayTime(time);
 
-  const hours = time.getHours();
-  const minutes = time.getMinutes();
-
   if (display.hours_to_display === 1) {
     wordIndexes.push(this.wordMap.esla);
   } else {

@@ -5,9 +5,6 @@ module.exports = function (time) {
   wordIndexes.push(this.wordMap.it);
   wordIndexes.push(this.wordMap.is);
 
-  const hours = time.getHours();
-  const minutes = time.getMinutes();
-
   if (Math.abs(display.minutes_to_display) === 5) {
     wordIndexes.push(this.wordMap.five);
   } else if (Math.abs(display.minutes_to_display) === 10) {
