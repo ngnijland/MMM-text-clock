@@ -11,7 +11,7 @@ Module.register('MMM-text-clock', {
     size: 'medium',
   },
 
-  supportedLanguages: ['en', 'fr', 'nl'],
+  supportedLanguages: ['en', 'fr', 'jp', 'nl'],
 
   start: function () {
     Log.info(`Starting module: ${this.name}`);

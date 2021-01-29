@@ -29,11 +29,13 @@ Look for the abbreviation of your language in [this](https://github.com/MichMich
 ```javascript
 const en = require('./en');
 const fr = require('./fr');
+const jp = require('./jp');
 const nl = require('./nl');
 
 module.exports = {
   en,
   fr,
+  jp,
   nl,
 };
 ```
