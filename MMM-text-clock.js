@@ -131,6 +131,13 @@ Module.register('MMM-text-clock', {
     return [this.file('css/MMM-text-clock.css')];
   },
 
+  /*
+   * Centralise the time display function in a manner that suits most languages
+   * This function returns
+   *   morning: a boolean which replicates the behaviour of AM/PM in english
+   *   hours_to_display: the hour to display 12h format (past 30' on the hour = the next hour)
+   *   minutes_to_display: in 5 minute increment, negative is "to the hour", positive is "past the hour"
+   */
   displayTime: function (time) {
     const hours = time.getHours();
     const minutes = time.getMinutes();
