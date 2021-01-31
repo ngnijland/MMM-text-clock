@@ -4,16 +4,20 @@ module.exports = function (time) {
 
   wordIndexes.push(this.wordMap.nowthetime);
 
-  if (display.minutes_to_display === 0 || display.minutes_to_display === 30) {
-    wordIndexes.push(this.wordMap.is_on_the_hour);
-  } else {
-    wordIndexes.push(this.wordMap.is);
-  }
-
   if (display.morning) {
     wordIndexes.push(this.wordMap.morning);
   } else {
     wordIndexes.push(this.wordMap.afternoon);
+  }
+
+  let hourToDisplay = display.hours_to_display;
+  if (display.minutes_to_display === 30) {
+    hourToDisplay = hourToDisplay + 0.5;
+  }
+  wordIndexes.push(this.wordMap[hourToDisplay]);
+
+  if (display.minutes_to_display === 0 || display.minutes_to_display === 30) {
+    wordIndexes.push(this.wordMap.is_on_the_hour);
   }
 
   if (display.minutes_to_display === 5) {
@@ -38,12 +42,9 @@ module.exports = function (time) {
     wordIndexes.push(this.wordMap.twentyfiveto);
   }
 
-  let hourToDisplay = display.hours_to_display;
-  if (display.minutes_to_display === 30) {
-    hourToDisplay = hourToDisplay + 0.5;
+  if (display.minutes_to_display !== 0 && display.minutes_to_display !== 30) {
+    wordIndexes.push(this.wordMap.is);
   }
-
-  wordIndexes.push(this.wordMap[hourToDisplay]);
 
   return wordIndexes;
 };
