@@ -3,9 +3,19 @@ module.exports = function (time) {
   const display = this.displayTime(time);
 
   if (display.hours_to_display === 1) {
-    wordIndexes.push(this.wordMap.esla);
+    wordIndexes.push(this.wordMap.es);
+    wordIndexes.push(this.wordMap.la);
   } else {
-    wordIndexes.push(this.wordMap.sonlas);
+    wordIndexes.push(this.wordMap.son);
+    wordIndexes.push(this.wordMap.las);
+  }
+
+  wordIndexes.push(this.wordMap[display.hours_to_display]);
+
+  if (display.minutes_to_display > 0) {
+    wordIndexes.push(this.wordMap.y);
+  } else if (display.minutes_to_display < 0) {
+    wordIndexes.push(this.wordMap.menos);
   }
 
   if (Math.abs(display.minutes_to_display) === 5) {
@@ -21,14 +31,6 @@ module.exports = function (time) {
   } else if (display.minutes_to_display === 30) {
     wordIndexes.push(this.wordMap.media);
   }
-
-  if (display.minutes_to_display > 0) {
-    wordIndexes.push(this.wordMap.y);
-  } else if (display.minutes_to_display < 0) {
-    wordIndexes.push(this.wordMap.menos);
-  }
-
-  wordIndexes.push(this.wordMap[display.hours_to_display]);
 
   return wordIndexes;
 };
