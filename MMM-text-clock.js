@@ -169,7 +169,7 @@ Module.register('MMM-text-clock', {
     }
 
     // If displaying minutes to the hour : bump the hour one notch
-    const displayHour = minutes >= 33 ? hours + 1 : hours;
+    const displayHour = (minutes >= 33 ? hours + 1 : hours) % 24;
 
     // use 12 hour format
     const normalizedHour = displayHour > 12 ? displayHour - 12 : displayHour;
