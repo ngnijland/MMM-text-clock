@@ -11,7 +11,7 @@ Module.register('MMM-text-clock', {
     size: 'medium',
   },
 
-  supportedLanguages: ['en', 'es', 'fr', 'nl'],
+  supportedLanguages: ['en', 'es', 'fr', 'jp', 'nl'],
 
   start: function () {
     Log.info(`Starting module: ${this.name}`);
@@ -129,5 +129,56 @@ Module.register('MMM-text-clock', {
 
   getStyles: function () {
     return [this.file('css/MMM-text-clock.css')];
+  },
+
+  /*
+   * Centralise the time display function in a manner that suits most languages
+   * This function returns
+   *   morning: a boolean which replicates the behaviour of AM/PM in english
+   *   hours_to_display: the hour to display 12h format (past 30' on the hour = the next hour)
+   *   minutes_to_display: in 5 minute increment, negative is "to the hour", positive is "past the hour"
+   */
+  displayTime: function (time) {
+    const hours = time.getHours();
+    const minutes = time.getMinutes();
+
+    let normalizedMinutes = 0;
+
+    if (minutes >= 3 && minutes <= 7) {
+      normalizedMinutes = 5;
+    } else if (minutes >= 53 && minutes <= 57) {
+      normalizedMinutes = -5;
+    } else if (minutes >= 8 && minutes <= 12) {
+      normalizedMinutes = 10;
+    } else if (minutes >= 48 && minutes <= 52) {
+      normalizedMinutes = -10;
+    } else if (minutes >= 13 && minutes <= 17) {
+      normalizedMinutes = 15;
+    } else if (minutes >= 43 && minutes <= 47) {
+      normalizedMinutes = -15;
+    } else if (minutes >= 18 && minutes <= 22) {
+      normalizedMinutes = 20;
+    } else if (minutes >= 38 && minutes <= 42) {
+      normalizedMinutes = -20;
+    } else if (minutes >= 23 && minutes <= 27) {
+      normalizedMinutes = 25;
+    } else if (minutes >= 33 && minutes <= 37) {
+      normalizedMinutes = -25;
+    } else if (minutes >= 28 && minutes <= 32) {
+      normalizedMinutes = 30;
+    }
+
+    // If displaying minutes to the hour : bump the hour one notch
+    const displayHour = (minutes >= 33 ? hours + 1 : hours) % 24;
+
+    // use 12 hour format
+    const normalizedHour = displayHour > 12 ? displayHour - 12 : displayHour;
+    const minutesFromMidnight = hours * 60 + minutes;
+
+    return {
+      morning: minutesFromMidnight < 753 && minutesFromMidnight >= 33,
+      hours_to_display: normalizedHour,
+      minutes_to_display: normalizedMinutes,
+    };
   },
 });
