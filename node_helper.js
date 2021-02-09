@@ -9,7 +9,7 @@ module.exports = NodeHelper.create({
         JSON.stringify(
           locale[payload],
           (_, value) => {
-            if (typeof value == 'function') {
+            if (typeof value === 'function') {
               return '__FUNC__' + value.toString();
             }
 
