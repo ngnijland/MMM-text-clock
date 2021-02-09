@@ -24,11 +24,12 @@ module.exports = function (time) {
     wordIndexes.push(this.wordMap.past);
   } else if (display.minutes_to_display < 0) {
     wordIndexes.push(this.wordMap.to);
-  } else {
-    wordIndexes.push(this.wordMap.oclock);
   }
 
   wordIndexes.push(this.wordMap[display.hours_to_display]);
 
+  if (display.minutes_to_display === 0) {
+    wordIndexes.push(this.wordMap.oclock);
+  }
   return wordIndexes;
 };
