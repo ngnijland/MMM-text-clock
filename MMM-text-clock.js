@@ -9,6 +9,7 @@ Module.register('MMM-text-clock', {
   defaults: {
     compact: false,
     size: 'medium',
+    languageAlternationInterval: 60,
   },
 
   supportedLanguages: ['en', 'es', 'fr', 'jp', 'nl'],
@@ -18,77 +19,75 @@ Module.register('MMM-text-clock', {
 
     this.compact = this.config.compact;
     this.size = this.config.size;
-
-    /*
-     * Read language alternation list
-     */
-    if (
-      this.config.languageAlternationList !== undefined &&
-      this.config.languageAlternationList.constructor === Array
-    ) {
-      // Only retain those languages supported
-      this.languageAlternationList = this.config.languageAlternationList.filter(
-        function (item) {
-          return this.indexOf(item) >= 0;
-        },
-        this.supportedLanguages
-      );
-      if (this.languageAlternationList.length === 0) {
-        this.languageAlternationList = undefined;
-        console.warn(
-          'MMM-text-clock ignored languageAlternationList because no supported languages  were found, choose from: ',
-          this.supportedLanguages.join(' ')
-        );
-      } else {
-        console.info(
-          'MMM-text-clock will alternate languages: ',
-          this.languageAlternationList.join(' ')
-        );
-      }
-    }
-
-    /*
-     * Check we have a valid alternation interval if provided
-     */
+    this.language = config.language;
     this.languageAlternationInterval = this.config.languageAlternationInterval;
-    if (this.languageAlternationInterval !== undefined) {
-      if (typeof this.languageAlternationInterval !== 'number') {
-        Log.error(
-          `"languageAlternationInterval: ${this.languageAlternationInterval}" is not a number. Defaulting to 60 minutes.`
-        );
-        this.languageAlternationInterval = 60;
-      }
-    }
 
     /*
-     * Ensure we always have an alternation interval when we have an alternation list
+     * Validate compact config
      */
-    if (
-      this.languageAlternationList !== undefined &&
-      (this.languageAlternationInterval === undefined ||
-        this.languageAlternationInterval === 0)
-    ) {
-      this.languageAlternationInterval = 60; // Default to 60 mins
-    }
-
-    this.language = this.supportedLanguages.includes(config.language)
-      ? config.language
-      : 'en';
-
     if (typeof this.compact !== 'boolean') {
       Log.error(`"${this.compact}" is not a boolean. Falling back to "false".`);
       this.compact = false;
     }
 
-    if (
-      this.size !== 'small' &&
-      this.size !== 'medium' &&
-      this.size !== 'large'
-    ) {
+    /*
+     * Validate size config
+     */
+    if (!['small', 'medium', 'large'].includes(this.size)) {
       Log.error(
         `"${this.size}" is not a supported value. Please use "small", "medium" or "large". Falling back to "medium".`
       );
       this.size = 'medium';
+    }
+
+    /*
+     * Validate language config
+     */
+    if (typeof this.config.language === 'string') {
+      if (this.supportedLanguages.includes(this.config.language)) {
+        this.language = this.config.language;
+      } else {
+        Log.error(
+          `"${
+            this.config.language
+          }" is not a supported language. Falling back to config language (${
+            config.language
+          }). Supported languages: ${this.supportedLanguages.join(', ')}`
+        );
+      }
+    } else if (Array.isArray(this.config.language)) {
+      this.language = this.config.language.filter((language) => {
+        const supported = this.supportedLanguages.includes(language);
+
+        if (!supported) {
+          Log.error(
+            `"${language}" is not a supported language. Removing it from language alternation list. Supported languages: ${this.supportedLanguages.join(
+              ', '
+            )}`
+          );
+        }
+
+        return supported;
+      });
+
+      if (this.language.length === 0) {
+        Log.error(
+          `No supported languages in language list. Falling back to config language (${config.language}).`
+        );
+
+        this.language = config.language;
+      }
+    }
+
+    /*
+     * Validate languageAlternationInterval config
+     */
+    if (typeof this.languageAlternationInterval !== 'number') {
+      Log.error(
+        `"${this.languageAlternationInterval}" is not a number. Falling back to "60".`
+      );
+
+      this.languageAlternationInterval = 60;
     }
 
     this.getActiveWords = undefined;
@@ -97,40 +96,44 @@ Module.register('MMM-text-clock', {
     this.wordMap = {};
 
     /*
-     * Iterate those alternate languages over time
+     * Alternate through languages if configured
      */
-    if (this.languageAlternationList !== undefined) {
-      // This is safe because we ensured above the array contains at least 1 element
+    if (Array.isArray(this.language)) {
+      let alternationIndex = 0;
+
       this.sendSocketNotification(
         'SET_LANGUAGE',
-        this.languageAlternationList[0]
+        this.language[alternationIndex]
       );
-      var currentAlternationIndex = 0;
 
       setInterval(() => {
-        ++currentAlternationIndex;
-        if (currentAlternationIndex >= this.languageAlternationList.length) {
-          currentAlternationIndex = 0;
+        alternationIndex++;
+
+        if (alternationIndex >= this.language.length) {
+          alternationIndex = 0;
         }
 
         this.sendSocketNotification(
           'SET_LANGUAGE',
-          this.languageAlternationList[currentAlternationIndex]
+          this.language[alternationIndex]
         );
 
-        console.info(
+        Log.info(
           'MMM-text-clock switched language to: ',
-          this.languageAlternationList[currentAlternationIndex]
+          this.language[alternationIndex]
         );
       }, this.languageAlternationInterval * 60 * 1000);
     } else {
-      // Else default to config language
       this.sendSocketNotification('SET_LANGUAGE', this.language);
     }
   },
 
+  updateInterval: undefined,
+
   socketNotificationReceived: function (notification, payload) {
     if (notification === 'SET_LANGUAGE') {
+      clearInterval(this.updateInterval);
+
       const revivedPayload = JSON.parse(payload, (_, value) => {
         if (typeof value === 'string' && value.indexOf('__FUNC__') === 0) {
           return eval(`(${value.slice(8)})`);
@@ -143,13 +146,11 @@ Module.register('MMM-text-clock', {
       this.letters = revivedPayload.letters;
       this.wordMap = revivedPayload.wordMap;
 
-      const self = this;
+      this.updateDom();
 
-      setInterval(() => {
-        self.updateDom();
+      this.updateInterval = setInterval(() => {
+        this.updateDom();
       }, 10000);
-
-      self.updateDom();
     }
   },
 

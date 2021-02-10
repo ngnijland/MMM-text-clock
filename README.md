@@ -22,7 +22,7 @@ cd ~/MagicMirror/modules
 git clone https://github.com/ngnijland/MMM-text-clock.git
 ```
 
-1. Add this module to the modules array in the MagicMirror `config/config.js` file, like this:
+3. Add this module to the modules array in the MagicMirror `config/config.js` file, like this:
 
 ```javascript
 modules: [
@@ -36,7 +36,7 @@ modules: [
 ## Language
 
 The text clock will match it's language to MagicMirror's `language` config (documentation [here](https://docs.magicmirror.builders/getting-started/configuration.html#raspberry-specific)). When the configured language is not supported the module will fall back to English.
-When the using the `languageAlternationList` option, the config language is ignored.
+When the using the `language` option, the config language is ignored.
 
 Supported languages:
 - English
@@ -67,7 +67,7 @@ Config                        | Type                       | Default value | Des
 :-----------------------------|:---------------------------|:--------------|:------------
 `compact`                     | `boolean`                  | `false`       | Compact mode only shows highlighted letters
 `size`                        | `small \| medium \| large` | `medium`      | The size of the clock
-`languageAlternationList`     | `array`                    | `none`        | A list of languages to alternate, overrides config language
+`language`                    | `string` | `string[]`      |               | A language or list of languages to alternate through. Overrides config language.
 `languageAlternationInterval` | `number`                   | `60`          | Interval in minutes at which the language changes (> 0)
 
 ## Todo
