@@ -142,6 +142,7 @@ Module.register('MMM-text-clock', {
         }
         return value;
       });
+
       this.getActiveWords = revivedPayload.getActiveWords;
       this.gridColumns = revivedPayload.gridColumns;
       this.letters = revivedPayload.letters;
@@ -244,6 +245,7 @@ Module.register('MMM-text-clock', {
         });
       }
     }
+
     return grid;
   },
 
