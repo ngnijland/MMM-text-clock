@@ -5,12 +5,11 @@ module.exports = function (time) {
   wordIndexes.push(this.wordMap.thetime);
   wordIndexes.push(this.wordMap.rightnow);
 
-  const displayHour =
-    display.minutes_to_display !== -25
-      ? display.hours_to_display
-      : display.hours_to_display === 0
-        ? 11
-        : display.hours_to_display - 1;
+  let displayHour = display.hours_to_display;
+  if (display.minutes_to_display === -25) {
+    displayHour =
+      display.hours_to_display === 0 ? 11 : display.hours_to_display - 1;
+  }
 
   wordIndexes.push(this.wordMap[displayHour]);
 
