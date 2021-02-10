@@ -20,6 +20,7 @@ Module.register('MMM-text-clock', {
     this.compact = this.config.compact;
     this.size = this.config.size;
     this.language = config.language;
+
     this.languageAlternationInterval = this.config.languageAlternationInterval;
 
     /*
@@ -114,10 +115,6 @@ Module.register('MMM-text-clock', {
           alternationIndex = 0;
         }
 
-        this.currentLanguage = this.languageAlternationList[
-          currentAlternationIndex
-        ];
-
         this.sendSocketNotification(
           'SET_LANGUAGE',
           this.language[alternationIndex]
@@ -150,6 +147,7 @@ Module.register('MMM-text-clock', {
       this.letters = revivedPayload.letters;
       this.words = revivedPayload.words;
       this.wordMap = revivedPayload.wordMap;
+      this.currentLanguage = revivedPayload.language;
 
       this.updateDom();
 
