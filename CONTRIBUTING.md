@@ -27,7 +27,7 @@ Look for the abbreviation of your language in [this](https://github.com/MichMich
 2. Import and export your folder inside the `locale/index.js` file, e.g.:
 
 ```javascript
-const en = require('./ar');
+const ar = require('./ar');
 const en = require('./en');
 const es = require('./es');
 const fr = require('./fr');
