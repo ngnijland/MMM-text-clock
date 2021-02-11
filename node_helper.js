@@ -7,7 +7,7 @@ module.exports = NodeHelper.create({
       this.sendSocketNotification(
         'SET_LANGUAGE',
         JSON.stringify(
-          Object.assign({}, { language: payload }, locale[payload]),
+          Object.assign({}, payload, locale[payload.language]),
           (_, value) => {
             if (typeof value === 'function') {
               return '__FUNC__' + value.toString();
