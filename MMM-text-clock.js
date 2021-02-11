@@ -12,7 +12,7 @@ Module.register('MMM-text-clock', {
     languageAlternationInterval: 60,
   },
 
-  supportedLanguages: ['en', 'es', 'fr', 'jp', 'nl'],
+  supportedLanguages: ['ar', 'en', 'es', 'fr', 'jp', 'nl'],
 
   start: function () {
     Log.info(`Starting module: ${this.name}`);
@@ -20,6 +20,7 @@ Module.register('MMM-text-clock', {
     this.compact = this.config.compact;
     this.size = this.config.size;
     this.language = config.language;
+
     this.languageAlternationInterval = this.config.languageAlternationInterval;
 
     /*
@@ -93,6 +94,7 @@ Module.register('MMM-text-clock', {
     this.getActiveWords = undefined;
     this.gridColumns = 0;
     this.letters = [];
+    this.words = [];
     this.wordMap = {};
 
     /*
@@ -144,7 +146,9 @@ Module.register('MMM-text-clock', {
       this.getActiveWords = revivedPayload.getActiveWords;
       this.gridColumns = revivedPayload.gridColumns;
       this.letters = revivedPayload.letters;
+      this.words = revivedPayload.words;
       this.wordMap = revivedPayload.wordMap;
+      this.currentLanguage = revivedPayload.language;
 
       this.updateDom();
 
@@ -160,7 +164,6 @@ Module.register('MMM-text-clock', {
     }
 
     const grid = document.createElement('div');
-    grid.classList.add('letters');
     grid.classList.add(this.compact ? 'bright' : 'dimmed');
     grid.classList.add(this.size);
 
@@ -187,25 +190,60 @@ Module.register('MMM-text-clock', {
       grid.style.gridGap = gridGap;
     }
 
-    const words = this.getActiveWords(new Date());
+    const activeWords = this.getActiveWords(new Date());
+    if (this.letters) {
+      // Original mode, letter grid
+      grid.classList.add('letters');
+      if (this.compact) {
+        grid.textContent = activeWords
+          .map((word) => word.map((letter) => this.letters[letter]).join(''))
+          .join(' ');
+      } else {
+        this.letters.forEach((letter, index) => {
+          const letterIndexes = activeWords.reduce(
+            (acc, word) => [...acc, ...word],
+            []
+          );
+          const element = document.createElement('span');
 
-    if (this.compact) {
-      grid.textContent = words
-        .map((word) => word.map((letter) => this.letters[letter]).join(''))
-        .join(' ');
+          letterIndexes.includes(index) && element.classList.add('bright');
+          element.textContent = letter;
+
+          grid.appendChild(element);
+        });
+      }
     } else {
-      this.letters.forEach((letter, index) => {
-        const letterIndexes = words.reduce(
-          (acc, word) => [...acc, ...word],
-          []
-        );
-        const element = document.createElement('span');
+      // Word mode
+      const activeWordsList = activeWords.flat(1);
 
-        letterIndexes.includes(index) && element.classList.add('bright');
-        element.textContent = letter;
+      if (this.compact) {
+        grid.textContent = activeWordsList
+          .map((word) => this.words[word[0]][word[1]])
+          .join(' ');
+      } else {
+        grid.classList.add('wordlayout');
+        grid.classList.add('lang_' + this.currentLanguage);
 
-        grid.appendChild(element);
-      });
+        this.words.forEach((line, indexLine) => {
+          const lineElement = document.createElement('span');
+          lineElement.classList.add('wordrow');
+
+          line.forEach((word, indexWord) => {
+            const wordElement = document.createElement('span');
+            wordElement.textContent = word;
+
+            if (
+              activeWordsList.some((item) => {
+                return item[0] === indexLine && item[1] === indexWord;
+              })
+            ) {
+              wordElement.classList.add('bright');
+            }
+            lineElement.appendChild(wordElement);
+          });
+          grid.appendChild(lineElement);
+        });
+      }
     }
 
     return grid;
