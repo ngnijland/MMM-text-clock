@@ -4,11 +4,10 @@ const locale = require('./locale');
 module.exports = NodeHelper.create({
   socketNotificationReceived: function (notification, payload) {
     if (notification === 'SET_LANGUAGE') {
-      const language = {language: payload};
       this.sendSocketNotification(
         'SET_LANGUAGE',
         JSON.stringify(
-          {...language,...locale[payload]},
+          Object.assign({}, { language: payload }, locale[payload]),
           (_, value) => {
             if (typeof value === 'function') {
               return '__FUNC__' + value.toString();
