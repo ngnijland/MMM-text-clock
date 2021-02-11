@@ -67,7 +67,7 @@ Config                        | Type                       | Default value | Des
 :-----------------------------|:---------------------------|:--------------|:------------
 `compact`                     | `boolean`                  | `false`       | Compact mode only shows highlighted letters
 `size`                        | `small \| medium \| large` | `medium`      | The size of the clock
-`language`                    | `string` | `string[]`      |               | A language or list of languages to alternate through. Overrides config language.
+`language`                    | `string` \| `string[]`     |               | A language or list of languages to alternate through. Overrides config language.
 `languageAlternationInterval` | `number`                   | `60`          | Interval in minutes at which the language changes (> 0)
 
 ## Todo

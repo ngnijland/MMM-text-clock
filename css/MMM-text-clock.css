@@ -7,3 +7,13 @@
 .letters {
   text-transform: uppercase;
 }
+
+.wordlayout.lang_ar {
+  width: 15em;
+  height: 15em;
+}
+
+.wordrow {
+  display: flex;
+  justify-content: space-between;
+}
