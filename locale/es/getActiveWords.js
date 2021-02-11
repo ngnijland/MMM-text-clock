@@ -1,50 +1,36 @@
 module.exports = function (time) {
   const wordIndexes = [];
+  const display = this.displayTime(time);
 
-  const hours = time.getHours();
-  const minutes = time.getMinutes();
-  const displayHour = minutes >= 33 ? hours + 1 : hours;
-
-  if (displayHour % 12 === 1) {
-    wordIndexes.push(this.wordMap.esla);
+  if (display.hours_to_display === 1) {
+    wordIndexes.push(this.wordMap.es);
+    wordIndexes.push(this.wordMap.la);
   } else {
-    wordIndexes.push(this.wordMap.sonlas);
+    wordIndexes.push(this.wordMap.son);
+    wordIndexes.push(this.wordMap.las);
   }
 
-  if ((minutes >= 3 && minutes <= 7) || (minutes >= 53 && minutes <= 57)) {
-    wordIndexes.push(this.wordMap.cinco);
-  } else if (
-    (minutes >= 8 && minutes <= 12) ||
-    (minutes >= 48 && minutes <= 52)
-  ) {
-    wordIndexes.push(this.wordMap.diez);
-  } else if (minutes >= 13 && minutes <= 17) {
-    wordIndexes.push(this.wordMap.quarto);
-  } else if (minutes >= 43 && minutes <= 47) {
-    wordIndexes.push(this.wordMap.quarto);
-  } else if (
-    (minutes >= 18) & (minutes <= 22) ||
-    (minutes >= 38 && minutes <= 42)
-  ) {
-    wordIndexes.push(this.wordMap.veinte);
-  } else if (
-    (minutes >= 23 && minutes <= 27) ||
-    (minutes >= 33 && minutes <= 37)
-  ) {
-    wordIndexes.push(this.wordMap.veinticinco);
-  } else if (minutes >= 28 && minutes <= 32) {
-    wordIndexes.push(this.wordMap.media);
-  }
+  wordIndexes.push(this.wordMap[display.hours_to_display]);
 
-  if (minutes >= 3 && minutes <= 32) {
+  if (display.minutes_to_display > 0) {
     wordIndexes.push(this.wordMap.y);
-  } else if (minutes >= 33 && minutes <= 57) {
+  } else if (display.minutes_to_display < 0) {
     wordIndexes.push(this.wordMap.menos);
   }
 
-  wordIndexes.push(
-    this.wordMap[displayHour > 12 ? displayHour - 12 : displayHour]
-  );
+  if (Math.abs(display.minutes_to_display) === 5) {
+    wordIndexes.push(this.wordMap.cinco);
+  } else if (Math.abs(display.minutes_to_display) === 10) {
+    wordIndexes.push(this.wordMap.diez);
+  } else if (Math.abs(display.minutes_to_display) === 15) {
+    wordIndexes.push(this.wordMap.quarto);
+  } else if (Math.abs(display.minutes_to_display) === 20) {
+    wordIndexes.push(this.wordMap.veinte);
+  } else if (Math.abs(display.minutes_to_display) === 25) {
+    wordIndexes.push(this.wordMap.veinticinco);
+  } else if (display.minutes_to_display === 30) {
+    wordIndexes.push(this.wordMap.media);
+  }
 
   return wordIndexes;
 };
