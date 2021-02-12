@@ -103,10 +103,10 @@ Module.register('MMM-text-clock', {
     if (Array.isArray(this.language)) {
       let alternationIndex = 0;
 
-      this.sendSocketNotification(
-        'SET_LANGUAGE',
-        this.language[alternationIndex]
-      );
+      this.sendSocketNotification('SET_LANGUAGE', {
+        id: this.identifier,
+        language: this.language[alternationIndex],
+      });
 
       setInterval(() => {
         alternationIndex++;
@@ -115,10 +115,10 @@ Module.register('MMM-text-clock', {
           alternationIndex = 0;
         }
 
-        this.sendSocketNotification(
-          'SET_LANGUAGE',
-          this.language[alternationIndex]
-        );
+        this.sendSocketNotification('SET_LANGUAGE', {
+          id: this.identifier,
+          language: this.language[alternationIndex],
+        });
 
         Log.info(
           'MMM-text-clock switched language to: ',
@@ -126,7 +126,10 @@ Module.register('MMM-text-clock', {
         );
       }, this.languageAlternationInterval * 60 * 1000);
     } else {
-      this.sendSocketNotification('SET_LANGUAGE', this.language);
+      this.sendSocketNotification('SET_LANGUAGE', {
+        id: this.identifier,
+        language: this.language,
+      });
     }
   },
 
@@ -134,14 +137,17 @@ Module.register('MMM-text-clock', {
 
   socketNotificationReceived: function (notification, payload) {
     if (notification === 'SET_LANGUAGE') {
-      clearInterval(this.updateInterval);
-
       const revivedPayload = JSON.parse(payload, (_, value) => {
         if (typeof value === 'string' && value.indexOf('__FUNC__') === 0) {
           return eval(`(${value.slice(8)})`);
         }
         return value;
       });
+
+      if (this.identifier !== revivedPayload.id) {
+        return;
+      }
+      clearInterval(this.updateInterval);
 
       this.getActiveWords = revivedPayload.getActiveWords;
       this.gridColumns = revivedPayload.gridColumns;
