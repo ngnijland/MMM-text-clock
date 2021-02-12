@@ -12,7 +12,7 @@ Module.register('MMM-text-clock', {
     languageAlternationInterval: 60,
   },
 
-  supportedLanguages: ['ar', 'en', 'es', 'fr', 'jp', 'nl'],
+  supportedLanguages: ['ar', 'en', 'es', 'fr', 'it', 'jp', 'nl'],
 
   start: function () {
     Log.info(`Starting module: ${this.name}`);
