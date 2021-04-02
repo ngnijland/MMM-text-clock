@@ -108,5 +108,5 @@ module.exports = [
   'a',
   'u',
   'h',
-  'r'
-]
+  'r',
+];
