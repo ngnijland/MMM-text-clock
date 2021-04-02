@@ -1,7 +1,7 @@
 module.exports = function (time) {
   const wordIndexes = [];
   const display = this.displayTime(time);
-  
+
   wordIndexes.push(this.wordMap.es);
   wordIndexes.push(this.wordMap.isch);
 
