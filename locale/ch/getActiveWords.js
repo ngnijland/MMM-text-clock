@@ -1,7 +1,7 @@
 module.exports = function (time) {
   const wordIndexes = [];
   const display = this.displayTime(time);
-
+  
   wordIndexes.push(this.wordMap.es);
   wordIndexes.push(this.wordMap.isch);
 
@@ -43,7 +43,7 @@ module.exports = function (time) {
 
   wordIndexes.push(
     this.wordMap[
-      display.minutes_to_display <= 15
+      display.minutes_to_display <= 25
         ? display.hours_to_display
         : display.hours_to_display + 1
     ]
