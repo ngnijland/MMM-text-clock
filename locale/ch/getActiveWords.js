@@ -43,7 +43,7 @@ module.exports = function (time) {
 
   wordIndexes.push(
     this.wordMap[
-      display.minutes_to_display <= 25
+      display.minutes_to_display <= 20
         ? display.hours_to_display
         : display.hours_to_display + 1
     ]
