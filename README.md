@@ -44,6 +44,8 @@ Supported languages:
 - Dutch
 - French
 - Japanese
+- Italian
+- Swiss German
 
 ## Configuration
 
