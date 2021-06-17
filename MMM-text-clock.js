@@ -22,7 +22,6 @@ Module.register('MMM-text-clock', {
     this.size = this.config.size;
     this.language = config.language;
     this.showMinutesIndicators = this.config.showMinutesIndicators;
-
     this.languageAlternationInterval = this.config.languageAlternationInterval;
 
     /*
@@ -108,7 +107,6 @@ Module.register('MMM-text-clock', {
     this.letters = [];
     this.words = [];
     this.wordMap = {};
-    this.dotMinutes = 0;
 
     /*
      * Alternate through languages if configured
@@ -181,7 +179,6 @@ Module.register('MMM-text-clock', {
     if (typeof this.getActiveWords !== 'function') {
       return document.createElement('div');
     }
-
     const grid = document.createElement('div');
     grid.classList.add(this.compact ? 'bright' : 'dimmed');
     grid.classList.add(this.size);
@@ -226,13 +223,17 @@ Module.register('MMM-text-clock', {
       } else {
         if (this.showMinutesIndicators) {
           const dot1 = document.createElement('span');
-          dot1.classList.add(this.dotMinutes < 1 ? 'dot-transparent' : 'dot');
+          dot1.classList.add(
+            this.dotMinutes < 1 ? 'minutedot-transparent' : 'minutedot'
+          );
           grid.appendChild(dot1);
           for (let index = 0; index < this.gridColumns; index++) {
             grid.appendChild(document.createElement('span'));
           }
           const dot2 = document.createElement('span');
-          dot2.classList.add(this.dotMinutes < 2 ? 'dot-transparent' : 'dot');
+          dot2.classList.add(
+            this.dotMinutes < 2 ? 'minutedot-transparent' : 'minutedot'
+          );
           grid.appendChild(dot2);
         }
         this.letters.forEach((letter, index) => {
@@ -258,13 +259,17 @@ Module.register('MMM-text-clock', {
         });
         if (this.showMinutesIndicators) {
           const dot4 = document.createElement('span');
-          dot4.classList.add(this.dotMinutes < 4 ? 'dot-transparent' : 'dot');
+          dot4.classList.add(
+            this.dotMinutes < 4 ? 'minutedot-transparent' : 'minutedot'
+          );
           grid.appendChild(dot4);
           for (let index = 0; index < this.gridColumns; index++) {
             grid.appendChild(document.createElement('span'));
           }
           const dot3 = document.createElement('span');
-          dot3.classList.add(this.dotMinutes < 3 ? 'dot-transparent' : 'dot');
+          dot3.classList.add(
+            this.dotMinutes < 3 ? 'minutedot-transparent' : 'minutedot'
+          );
           grid.appendChild(dot3);
         }
       }
@@ -280,11 +285,15 @@ Module.register('MMM-text-clock', {
         grid.classList.add('wordlayout');
         if (this.showMinutesIndicators) {
           const dot1 = document.createElement('span');
-          dot1.classList.add(this.dotMinutes < 1 ? 'dot-transparent' : 'dot');
+          dot1.classList.add(
+            this.dotMinutes < 1 ? 'minutedot-transparent' : 'minutedot'
+          );
           grid.appendChild(dot1);
           grid.appendChild(document.createElement('span'));
           const dot2 = document.createElement('span');
-          dot2.classList.add(this.dotMinutes < 2 ? 'dot-transparent' : 'dot');
+          dot2.classList.add(
+            this.dotMinutes < 2 ? 'minutedot-transparent' : 'minutedot'
+          );
           grid.appendChild(dot2);
         }
         this.words.forEach((line, indexLine) => {
@@ -314,11 +323,15 @@ Module.register('MMM-text-clock', {
         });
         if (this.showMinutesIndicators) {
           const dot4 = document.createElement('span');
-          dot4.classList.add(this.dotMinutes < 4 ? 'dot-transparent' : 'dot');
+          dot4.classList.add(
+            this.dotMinutes < 4 ? 'minutedot-transparent' : 'minutedot'
+          );
           grid.appendChild(dot4);
           grid.appendChild(document.createElement('span'));
           const dot3 = document.createElement('span');
-          dot3.classList.add(this.dotMinutes < 3 ? 'dot-transparent' : 'dot');
+          dot3.classList.add(
+            this.dotMinutes < 3 ? 'minutedot-transparent' : 'minutedot'
+          );
           grid.appendChild(dot3);
         }
       }
@@ -343,6 +356,7 @@ Module.register('MMM-text-clock', {
 
     let normalizedMinutes = 0;
     if (this.showMinutesIndicators && !this.compact) {
+      // Rounding to the immediately lower 5 minute increment
       if (minutes >= 5 && minutes < 10) {
         normalizedMinutes = 5;
       } else if (minutes >= 55 && minutes <= 59) {
@@ -367,6 +381,7 @@ Module.register('MMM-text-clock', {
         normalizedMinutes = 30;
       }
     } else {
+      // Original rounding algorithm, rounding to the closest 5 minute increment
       if (minutes >= 3 && minutes <= 7) {
         normalizedMinutes = 5;
       } else if (minutes >= 53 && minutes <= 57) {
