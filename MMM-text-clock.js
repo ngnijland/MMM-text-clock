@@ -9,6 +9,7 @@ Module.register('MMM-text-clock', {
   defaults: {
     compact: false,
     size: 'medium',
+    showMinutesIndicators: false,
     languageAlternationInterval: 60,
   },
 
@@ -20,6 +21,7 @@ Module.register('MMM-text-clock', {
     this.compact = this.config.compact;
     this.size = this.config.size;
     this.language = config.language;
+    this.showMinutesIndicators = this.config.showMinutesIndicators;
 
     this.languageAlternationInterval = this.config.languageAlternationInterval;
 
@@ -39,6 +41,16 @@ Module.register('MMM-text-clock', {
         `"${this.size}" is not a supported value. Please use "small", "medium" or "large". Falling back to "medium".`
       );
       this.size = 'medium';
+    }
+
+    /*
+     * Validate showMinutesIndicators config
+     */
+    if (typeof this.showMinutesIndicators !== 'boolean') {
+      Log.error(
+        `"${this.showMinutesIndicators}" is not a boolean. Falling back to "false".`
+      );
+      this.showMinutesIndicators = false;
     }
 
     /*
@@ -96,6 +108,7 @@ Module.register('MMM-text-clock', {
     this.letters = [];
     this.words = [];
     this.wordMap = {};
+    this.dotMinutes = 0;
 
     /*
      * Alternate through languages if configured
@@ -172,10 +185,13 @@ Module.register('MMM-text-clock', {
     const grid = document.createElement('div');
     grid.classList.add(this.compact ? 'bright' : 'dimmed');
     grid.classList.add(this.size);
+    grid.classList.add('lang_' + this.currentLanguage);
 
     if (!this.compact) {
       grid.style.display = 'grid';
-      grid.style.gridTemplateColumns = `repeat(${this.gridColumns}, 1fr)`;
+      grid.style.gridTemplateColumns = `repeat(${
+        this.gridColumns + (this.showMinutesIndicators ? 2 : 0)
+      }, 1fr)`;
 
       let gridGap;
 
@@ -196,7 +212,10 @@ Module.register('MMM-text-clock', {
       grid.style.gridGap = gridGap;
     }
 
-    const activeWords = this.getActiveWords(new Date());
+    const theTimeNow = new Date();
+    this.dotMinutes = theTimeNow.getMinutes() % 5;
+    const activeWords = this.getActiveWords(theTimeNow);
+
     if (this.letters) {
       // Original mode, letter grid
       grid.classList.add('letters');
@@ -205,7 +224,21 @@ Module.register('MMM-text-clock', {
           .map((word) => word.map((letter) => this.letters[letter]).join(''))
           .join(' ');
       } else {
+        if (this.showMinutesIndicators) {
+          const dot1 = document.createElement('span');
+          dot1.classList.add(this.dotMinutes < 1 ? 'dot-transparent' : 'dot');
+          grid.appendChild(dot1);
+          for (let index = 0; index < this.gridColumns; index++) {
+            grid.appendChild(document.createElement('span'));
+          }
+          const dot2 = document.createElement('span');
+          dot2.classList.add(this.dotMinutes < 2 ? 'dot-transparent' : 'dot');
+          grid.appendChild(dot2);
+        }
         this.letters.forEach((letter, index) => {
+          if (this.showMinutesIndicators && index % this.gridColumns === 0) {
+            grid.appendChild(document.createElement('span'));
+          }
           const letterIndexes = activeWords.reduce(
             (acc, word) => [...acc, ...word],
             []
@@ -216,7 +249,24 @@ Module.register('MMM-text-clock', {
           element.textContent = letter;
 
           grid.appendChild(element);
+          if (
+            this.showMinutesIndicators &&
+            index % this.gridColumns === this.gridColumns - 1
+          ) {
+            grid.appendChild(document.createElement('span'));
+          }
         });
+        if (this.showMinutesIndicators) {
+          const dot4 = document.createElement('span');
+          dot4.classList.add(this.dotMinutes < 4 ? 'dot-transparent' : 'dot');
+          grid.appendChild(dot4);
+          for (let index = 0; index < this.gridColumns; index++) {
+            grid.appendChild(document.createElement('span'));
+          }
+          const dot3 = document.createElement('span');
+          dot3.classList.add(this.dotMinutes < 3 ? 'dot-transparent' : 'dot');
+          grid.appendChild(dot3);
+        }
       }
     } else {
       // Word mode
@@ -228,9 +278,19 @@ Module.register('MMM-text-clock', {
           .join(' ');
       } else {
         grid.classList.add('wordlayout');
-        grid.classList.add('lang_' + this.currentLanguage);
-
+        if (this.showMinutesIndicators) {
+          const dot1 = document.createElement('span');
+          dot1.classList.add(this.dotMinutes < 1 ? 'dot-transparent' : 'dot');
+          grid.appendChild(dot1);
+          grid.appendChild(document.createElement('span'));
+          const dot2 = document.createElement('span');
+          dot2.classList.add(this.dotMinutes < 2 ? 'dot-transparent' : 'dot');
+          grid.appendChild(dot2);
+        }
         this.words.forEach((line, indexLine) => {
+          if (this.showMinutesIndicators) {
+            grid.appendChild(document.createElement('span'));
+          }
           const lineElement = document.createElement('span');
           lineElement.classList.add('wordrow');
 
@@ -248,10 +308,21 @@ Module.register('MMM-text-clock', {
             lineElement.appendChild(wordElement);
           });
           grid.appendChild(lineElement);
+          if (this.showMinutesIndicators) {
+            grid.appendChild(document.createElement('span'));
+          }
         });
+        if (this.showMinutesIndicators) {
+          const dot4 = document.createElement('span');
+          dot4.classList.add(this.dotMinutes < 4 ? 'dot-transparent' : 'dot');
+          grid.appendChild(dot4);
+          grid.appendChild(document.createElement('span'));
+          const dot3 = document.createElement('span');
+          dot3.classList.add(this.dotMinutes < 3 ? 'dot-transparent' : 'dot');
+          grid.appendChild(dot3);
+        }
       }
     }
-
     return grid;
   },
 
@@ -271,40 +342,68 @@ Module.register('MMM-text-clock', {
     const minutes = time.getMinutes();
 
     let normalizedMinutes = 0;
-
-    if (minutes >= 3 && minutes <= 7) {
-      normalizedMinutes = 5;
-    } else if (minutes >= 53 && minutes <= 57) {
-      normalizedMinutes = -5;
-    } else if (minutes >= 8 && minutes <= 12) {
-      normalizedMinutes = 10;
-    } else if (minutes >= 48 && minutes <= 52) {
-      normalizedMinutes = -10;
-    } else if (minutes >= 13 && minutes <= 17) {
-      normalizedMinutes = 15;
-    } else if (minutes >= 43 && minutes <= 47) {
-      normalizedMinutes = -15;
-    } else if (minutes >= 18 && minutes <= 22) {
-      normalizedMinutes = 20;
-    } else if (minutes >= 38 && minutes <= 42) {
-      normalizedMinutes = -20;
-    } else if (minutes >= 23 && minutes <= 27) {
-      normalizedMinutes = 25;
-    } else if (minutes >= 33 && minutes <= 37) {
-      normalizedMinutes = -25;
-    } else if (minutes >= 28 && minutes <= 32) {
-      normalizedMinutes = 30;
+    if (this.showMinutesIndicators && !this.compact) {
+      if (minutes >= 5 && minutes < 10) {
+        normalizedMinutes = 5;
+      } else if (minutes >= 55 && minutes <= 59) {
+        normalizedMinutes = -5;
+      } else if (minutes >= 10 && minutes < 15) {
+        normalizedMinutes = 10;
+      } else if (minutes >= 50 && minutes < 55) {
+        normalizedMinutes = -10;
+      } else if (minutes >= 15 && minutes < 20) {
+        normalizedMinutes = 15;
+      } else if (minutes >= 45 && minutes < 50) {
+        normalizedMinutes = -15;
+      } else if (minutes >= 20 && minutes < 25) {
+        normalizedMinutes = 20;
+      } else if (minutes >= 40 && minutes < 45) {
+        normalizedMinutes = -20;
+      } else if (minutes >= 25 && minutes < 30) {
+        normalizedMinutes = 25;
+      } else if (minutes >= 35 && minutes < 40) {
+        normalizedMinutes = -25;
+      } else if (minutes >= 30 && minutes < 35) {
+        normalizedMinutes = 30;
+      }
+    } else {
+      if (minutes >= 3 && minutes <= 7) {
+        normalizedMinutes = 5;
+      } else if (minutes >= 53 && minutes <= 57) {
+        normalizedMinutes = -5;
+      } else if (minutes >= 8 && minutes <= 12) {
+        normalizedMinutes = 10;
+      } else if (minutes >= 48 && minutes <= 52) {
+        normalizedMinutes = -10;
+      } else if (minutes >= 13 && minutes <= 17) {
+        normalizedMinutes = 15;
+      } else if (minutes >= 43 && minutes <= 47) {
+        normalizedMinutes = -15;
+      } else if (minutes >= 18 && minutes <= 22) {
+        normalizedMinutes = 20;
+      } else if (minutes >= 38 && minutes <= 42) {
+        normalizedMinutes = -20;
+      } else if (minutes >= 23 && minutes <= 27) {
+        normalizedMinutes = 25;
+      } else if (minutes >= 33 && minutes <= 37) {
+        normalizedMinutes = -25;
+      } else if (minutes >= 28 && minutes <= 32) {
+        normalizedMinutes = 30;
+      }
     }
 
     // If displaying minutes to the hour : bump the hour one notch
-    const displayHour = (minutes >= 33 ? hours + 1 : hours) % 24;
+    const displayHour = (normalizedMinutes < 0 ? hours + 1 : hours) % 24;
 
     // use 12 hour format
     const normalizedHour = displayHour > 12 ? displayHour - 12 : displayHour;
     const minutesFromMidnight = hours * 60 + minutes;
-
+    const morning =
+      this.showMinutesIndicators && !this.compact
+        ? minutesFromMidnight <= 750 && minutesFromMidnight >= 35
+        : minutesFromMidnight < 753 && minutesFromMidnight >= 33;
     return {
-      morning: minutesFromMidnight < 753 && minutesFromMidnight >= 33,
+      morning: morning,
       hours_to_display: normalizedHour,
       minutes_to_display: normalizedMinutes,
     };
