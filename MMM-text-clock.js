@@ -10,7 +10,7 @@ Module.register('MMM-text-clock', {
     compact: false,
     languageAlternationInterval: 60,
     size: 'medium',
-    fullscreen: false
+    fullscreen: false,
   },
 
   supportedLanguages: ['ar', 'ch', 'en', 'es', 'fr', 'it', 'jp', 'nl'],
@@ -24,12 +24,13 @@ Module.register('MMM-text-clock', {
     this.size = this.config.size;
     this.fullscreen = this.config.fullscreen;
 
-
     /*
      * Validate compact config
      */
     if (typeof this.compact !== 'boolean') {
-      Log.error(`compact: ${this.compact} is not a boolean. Falling back to "false".`);
+      Log.error(
+        `compact: ${this.compact} is not a boolean. Falling back to "false".`
+      );
       this.compact = false;
     }
 
@@ -46,7 +47,7 @@ Module.register('MMM-text-clock', {
     /*
      * Validate fullscreen config
      */
-    if(typeof this.fullscreen !== 'boolean') {
+    if (typeof this.fullscreen !== 'boolean') {
       Log.error(
         `fullscreen: ${this.fullscreen} is not a supported value. Please use a boolean.`
       );
@@ -56,9 +57,9 @@ Module.register('MMM-text-clock', {
     /*
      * Validate fullscreen config in combination with compact config
      */
-    if(this.fullscreen && this.compact) {
+    if (this.fullscreen && this.compact) {
       Log.error(
-        `fullscreen and compact can't both be true. Setting "fullscreen" to false`
+        'fullscreen and compact can\'t both be true. Setting "fullscreen" to false'
       );
       this.fullscreen = false;
     }
@@ -196,7 +197,6 @@ Module.register('MMM-text-clock', {
     grid.classList.add(this.compact ? 'bright' : 'dimmed');
     grid.classList.add(this.size);
 
-
     if (!this.compact) {
       grid.classList.add('grid');
       grid.style.gridTemplateColumns = `repeat(${this.gridColumns}, 1fr)`;
@@ -216,7 +216,7 @@ Module.register('MMM-text-clock', {
       }
     }
 
-    if(this.fullscreen) {
+    if (this.fullscreen) {
       grid.classList.add('grid--fullscreen');
     }
 
