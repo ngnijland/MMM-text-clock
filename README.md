@@ -71,6 +71,7 @@ Config                        | Type                       | Default value | Des
 `size`                        | `small \| medium \| large` | `medium`      | The size of the clock
 `language`                    | `string` \| `string[]`     |               | A language or list of languages to alternate through. Overrides config language.
 `languageAlternationInterval` | `number`                   | `60`          | Interval in minutes at which the language changes (> 0)
+`fullscreen`                  | `boolean`                  | `false`       | Fullscreen mode takes over your entire screen
 
 ## Todo
 - [x] Code text clock (English)
