@@ -8,8 +8,9 @@
 Module.register('MMM-text-clock', {
   defaults: {
     compact: false,
-    size: 'medium',
     languageAlternationInterval: 60,
+    size: 'medium',
+    fullscreen: false
   },
 
   supportedLanguages: ['ar', 'ch', 'en', 'es', 'fr', 'it', 'jp', 'nl'],
@@ -18,16 +19,17 @@ Module.register('MMM-text-clock', {
     Log.info(`Starting module: ${this.name}`);
 
     this.compact = this.config.compact;
-    this.size = this.config.size;
     this.language = config.language;
-
     this.languageAlternationInterval = this.config.languageAlternationInterval;
+    this.size = this.config.size;
+    this.fullscreen = this.config.fullscreen;
+
 
     /*
      * Validate compact config
      */
     if (typeof this.compact !== 'boolean') {
-      Log.error(`"${this.compact}" is not a boolean. Falling back to "false".`);
+      Log.error(`compact: ${this.compact} is not a boolean. Falling back to "false".`);
       this.compact = false;
     }
 
@@ -36,9 +38,29 @@ Module.register('MMM-text-clock', {
      */
     if (!['small', 'medium', 'large'].includes(this.size)) {
       Log.error(
-        `"${this.size}" is not a supported value. Please use "small", "medium" or "large". Falling back to "medium".`
+        `size: "${this.size}" is not a supported value. Please use "small", "medium" or "large". Falling back to "medium".`
       );
       this.size = 'medium';
+    }
+
+    /*
+     * Validate fullscreen config
+     */
+    if(typeof this.fullscreen !== 'boolean') {
+      Log.error(
+        `fullscreen: ${this.fullscreen} is not a supported value. Please use a boolean.`
+      );
+      this.fullscreen = false;
+    }
+
+    /*
+     * Validate fullscreen config in combination with compact config
+     */
+    if(this.fullscreen && this.compact) {
+      Log.error(
+        `fullscreen and compact can't both be true. Setting "fullscreen" to false`
+      );
+      this.fullscreen = false;
     }
 
     /*
@@ -147,6 +169,7 @@ Module.register('MMM-text-clock', {
       if (this.identifier !== revivedPayload.id) {
         return;
       }
+
       clearInterval(this.updateInterval);
 
       this.getActiveWords = revivedPayload.getActiveWords;
@@ -173,27 +196,28 @@ Module.register('MMM-text-clock', {
     grid.classList.add(this.compact ? 'bright' : 'dimmed');
     grid.classList.add(this.size);
 
-    if (!this.compact) {
-      grid.style.display = 'grid';
-      grid.style.gridTemplateColumns = `repeat(${this.gridColumns}, 1fr)`;
 
-      let gridGap;
+    if (!this.compact) {
+      grid.classList.add('grid');
+      grid.style.gridTemplateColumns = `repeat(${this.gridColumns}, 1fr)`;
 
       switch (this.size) {
         case 'small': {
-          gridGap = '0.75rem 1.125rem';
+          grid.classList.add('grid--gap-small');
           break;
         }
         case 'large': {
-          gridGap = '2rem 2.25rem';
+          grid.classList.add('grid--gap-large');
           break;
         }
         default: {
-          gridGap = '1rem 1.5rem';
+          grid.classList.add('grid--gap-medium');
         }
       }
+    }
 
-      grid.style.gridGap = gridGap;
+    if(this.fullscreen) {
+      grid.classList.add('grid--fullscreen');
     }
 
     const activeWords = this.getActiveWords(new Date());
