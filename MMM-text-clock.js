@@ -13,7 +13,7 @@ Module.register('MMM-text-clock', {
     fullscreen: false,
   },
 
-  supportedLanguages: ['ar', 'ch', 'en', 'es', 'fr', 'it', 'jp', 'nl'],
+  supportedLanguages: ['ar', 'ch', 'en', 'es', 'fi', 'fr', 'it', 'jp', 'nl'],
 
   start: function () {
     Log.info(`Starting module: ${this.name}`);
@@ -37,9 +37,9 @@ Module.register('MMM-text-clock', {
     /*
      * Validate size config
      */
-    if (!['small', 'medium', 'large'].includes(this.size)) {
+    if (!['tiny', 'small', 'medium', 'large'].includes(this.size)) {
       Log.error(
-        `size: "${this.size}" is not a supported value. Please use "small", "medium" or "large". Falling back to "medium".`
+        `size: "${this.size}" is not a supported value. Please use "tiny", "small", "medium" or "large". Falling back to "medium".`
       );
       this.size = 'medium';
     }
@@ -166,7 +166,6 @@ Module.register('MMM-text-clock', {
         }
         return value;
       });
-
       if (this.identifier !== revivedPayload.id) {
         return;
       }
@@ -179,7 +178,6 @@ Module.register('MMM-text-clock', {
       this.words = revivedPayload.words;
       this.wordMap = revivedPayload.wordMap;
       this.currentLanguage = revivedPayload.language;
-
       this.updateDom();
 
       this.updateInterval = setInterval(() => {
@@ -202,6 +200,10 @@ Module.register('MMM-text-clock', {
       grid.style.gridTemplateColumns = `repeat(${this.gridColumns}, 1fr)`;
 
       switch (this.size) {
+        case 'tiny': {
+          grid.classList.add('grid--gap-tiny');
+          break;
+        }
         case 'small': {
           grid.classList.add('grid--gap-small');
           break;
