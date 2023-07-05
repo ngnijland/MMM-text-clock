@@ -42,6 +42,7 @@ Supported languages:
 - English
 - Spanish
 - Dutch
+- Finnish
 - French
 - Japanese
 - Italian
@@ -68,8 +69,8 @@ The following configurations are available:
 Config                        | Type                                           | Default value  | Description
 :-----------------------------|:-----------------------------------------------|:---------------|:------------
 `compact`                     | `boolean`                                      | `false`        | Compact mode only shows highlighted letters
-`size`                        | `small \| medium \| large`                     | `medium`       | The size of the clock
-`language`                    | `ar \| ch \| en \| es \| fr \| it \| jp \| nl` | `en`           | A language or list of languages to alternate through. Overrides config language.
+`size`                        | `tiny \| small \| medium \| large`                     | `medium`       | The size of the clock
+`language`                    | `ar \| ch \| en \| es \| fi \| fr \| it \| jp \| nl` | `en`           | A language or list of languages to alternate through. Overrides config language.
 `languageAlternationInterval` | `number`                                       | `60`           | Interval in minutes at which the language changes (> 0)
 `fullscreen`                  | `boolean`                                      | `false`        | Fullscreen mode takes over your entire screen
 
