@@ -22,11 +22,7 @@
   display: grid;
 }
 
-.MMM-text-clock div.module-content div.tiny {
-  font-size: 15px;
-}
-
-.grid--gap-tiny {
+.grid--gap-xsmall {
   grid-gap: 0.20rem 0.35rem;
 }
 
