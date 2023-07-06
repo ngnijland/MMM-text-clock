@@ -37,9 +37,9 @@ Module.register('MMM-text-clock', {
     /*
      * Validate size config
      */
-    if (!['tiny', 'small', 'medium', 'large'].includes(this.size)) {
+    if (!['xsmall', 'small', 'medium', 'large'].includes(this.size)) {
       Log.error(
-        `size: "${this.size}" is not a supported value. Please use "tiny", "small", "medium" or "large". Falling back to "medium".`
+        `size: "${this.size}" is not a supported value. Please use "xsmall", "small", "medium" or "large". Falling back to "medium".`
       );
       this.size = 'medium';
     }
@@ -200,8 +200,8 @@ Module.register('MMM-text-clock', {
       grid.style.gridTemplateColumns = `repeat(${this.gridColumns}, 1fr)`;
 
       switch (this.size) {
-        case 'tiny': {
-          grid.classList.add('grid--gap-tiny');
+        case 'xsmall': {
+          grid.classList.add('grid--gap-xsmall');
           break;
         }
         case 'small': {
