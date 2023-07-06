@@ -16,7 +16,7 @@ module.exports = function (time) {
     wordIndexes.push(this.wordMap.twentyfive);
   } else if (display.minutes_to_display === 30) {
     wordIndexes.push(this.wordMap.half);
-    display.hours_to_display = (display.hours_to_display + 1) % 12;  
+    display.hours_to_display = (display.hours_to_display + 1) % 12;
   }
 
   if (display.minutes_to_display !== 30) {
