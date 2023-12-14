@@ -47,6 +47,7 @@ Supported languages:
 - Japanese
 - Italian
 - Swiss German
+- German
 
 ## Configuration
 
@@ -70,7 +71,7 @@ Config                        | Type                                           |
 :-----------------------------|:-----------------------------------------------|:---------------|:------------
 `compact`                     | `boolean`                                      | `false`        | Compact mode only shows highlighted letters
 `size`                        | `xsmall \| small \| medium \| large`                     | `medium`       | The size of the clock
-`language`                    | `ar \| ch \| en \| es \| fi \| fr \| it \| jp \| nl` | `en`           | A language or list of languages to alternate through. Overrides config language.
+`language`                    | `ar \| ch \| de \| en \| es \| fi \| fr \| it \| jp \| nl` | `en`           | A language or list of languages to alternate through. Overrides config language.
 `languageAlternationInterval` | `number`                                       | `60`           | Interval in minutes at which the language changes (> 0)
 `fullscreen`                  | `boolean`                                      | `false`        | Fullscreen mode takes over your entire screen
 
