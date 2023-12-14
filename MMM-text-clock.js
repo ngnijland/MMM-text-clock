@@ -13,7 +13,7 @@ Module.register('MMM-text-clock', {
     fullscreen: false,
   },
 
-  supportedLanguages: ['ar', 'ch', 'en', 'es', 'fi', 'fr', 'it', 'jp', 'nl'],
+  supportedLanguages: ['ar', 'ch', 'de', 'en', 'es', 'fi', 'fr', 'it', 'jp', 'nl'],
 
   start: function () {
     Log.info(`Starting module: ${this.name}`);

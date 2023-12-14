@@ -1,5 +1,6 @@
 const ar = require('./ar');
 const ch = require('./ch');
+const de = require('./de');
 const en = require('./en');
 const es = require('./es');
 const fi = require('./fi');
@@ -11,6 +12,7 @@ const nl = require('./nl');
 module.exports = {
   ar,
   ch,
+  de,
   en,
   es,
   fi,
