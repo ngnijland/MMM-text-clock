@@ -18,6 +18,41 @@
   justify-content: space-between;
 }
 
+.grid {
+  display: grid;
+}
+
+.grid--gap-xsmall {
+  grid-gap: 0.20rem 0.35rem;
+}
+
+.grid--gap-small {
+  grid-gap: 0.75rem 1.125rem;
+}
+
+.grid--gap-medium {
+  grid-gap: 2rem 2.25rem;
+}
+
+.grid--gap-large {
+  grid-gap: 1rem 1.5rem;
+}
+
+.grid--fullscreen {
+  position: fixed;
+  top: 60px;
+  right: 60px;
+  bottom: 60px;
+  left: 60px;
+
+  grid-gap: 0;
+}
+
+.grid--fullscreen span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .minutedot,
 .minutedot-transparent {
   border-radius: 100%;
