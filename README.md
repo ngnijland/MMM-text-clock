@@ -42,10 +42,12 @@ Supported languages:
 - English
 - Spanish
 - Dutch
+- Finnish
 - French
 - Japanese
 - Italian
 - Swiss German
+- German
 
 ## Configuration
 
@@ -65,12 +67,13 @@ modules: [
 
 The following configurations are available:
 
-Config                        | Type                       | Default value | Description
-:-----------------------------|:---------------------------|:--------------|:------------
-`compact`                     | `boolean`                  | `false`       | Compact mode only shows highlighted letters
-`size`                        | `small \| medium \| large` | `medium`      | The size of the clock
-`language`                    | `string` \| `string[]`     |               | A language or list of languages to alternate through. Overrides config language.
-`languageAlternationInterval` | `number`                   | `60`          | Interval in minutes at which the language changes (> 0)
+Config                        | Type                                           | Default value  | Description
+:-----------------------------|:-----------------------------------------------|:---------------|:------------
+`compact`                     | `boolean`                                      | `false`        | Compact mode only shows highlighted letters
+`size`                        | `xsmall \| small \| medium \| large`                     | `medium`       | The size of the clock
+`language`                    | `ar \| ch \| de \| en \| es \| fi \| fr \| it \| jp \| nl` | `en`           | A language or list of languages to alternate through. Overrides config language.
+`languageAlternationInterval` | `number`                                       | `60`           | Interval in minutes at which the language changes (> 0)
+`fullscreen`                  | `boolean`                                      | `false`        | Fullscreen mode takes over your entire screen
 `showMinutesIndicators`       | `boolean`                  | `false`       | Shows a dot at each corner of the clock for every minute past the displayed time (e.g. 18 = quarter + 3 dots). This parameter is ignored in compact mode.
 
 ## Todo
