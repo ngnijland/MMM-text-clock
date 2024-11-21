@@ -65,8 +65,8 @@ Module.register('MMM-text-clock', {
         'fullscreen and compact can\'t both be true. Setting "fullscreen" to false'
       );
       this.fullscreen = false;
-	  
-     /* 
+    }
+    /*
       * Validate showMinutesIndicators config
      */
     if (typeof this.showMinutesIndicators !== 'boolean') {
