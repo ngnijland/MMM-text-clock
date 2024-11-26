@@ -8,7 +8,6 @@ module.exports = function (time) {
 
   if (display.minutes_to_display === 0) {
     fullHour = true;
-    wordIndexes.push(this.wordMap.uhr);
   } else if (display.minutes_to_display === 5) {
     wordIndexes.push(this.wordMap.fünf);
     wordIndexes.push(this.wordMap.nach);
@@ -50,10 +49,14 @@ module.exports = function (time) {
       ? display.hours_to_display
       : display.hours_to_display + 1;
 
-  wordIndexes.push(this.wordMap[hour]);
-
   if (hour === 1 && !fullHour) {
-    wordIndexes.push(this.wordMap.s);
+    wordIndexes.push(this.wordMap.eins);
+  } else {
+    wordIndexes.push(this.wordMap[hour]);
+  }
+
+  if (fullHour) {
+    wordIndexes.push(this.wordMap.uhr);
   }
 
   return wordIndexes;
