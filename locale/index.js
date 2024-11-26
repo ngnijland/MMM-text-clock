@@ -17,6 +17,7 @@ module.exports = {
   en,
   es,
   fi,
+  fr,
   it,
   jp,
   nl,
