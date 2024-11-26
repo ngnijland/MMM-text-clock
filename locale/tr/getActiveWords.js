@@ -69,7 +69,7 @@ module.exports = function (time) {
   if (minutes == 0 || minutes == 30) {
   	// we are done on the clock and half past
   } else {
-    push(this.wordMap.geçiyor);
+    wordIndexes.push(this.wordMap.geçiyor);
   }
   return wordIndexes;
 };
