@@ -54,7 +54,7 @@ module.exports = function (time) {
   } else {
     wordIndexes.push(this.wordMap[hour]);
   }
-  
+
   if (fullHour) {
     wordIndexes.push(this.wordMap.uhr);
   }
