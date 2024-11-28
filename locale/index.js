@@ -8,6 +8,7 @@ const fr = require('./fr');
 const it = require('./it');
 const jp = require('./jp');
 const nl = require('./nl');
+const tr = require('./tr');
 
 module.exports = {
   ar,
@@ -16,7 +17,9 @@ module.exports = {
   en,
   es,
   fi,
+  fr,
   it,
   jp,
   nl,
+  tr,
 };
