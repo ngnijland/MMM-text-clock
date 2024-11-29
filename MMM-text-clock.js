@@ -9,10 +9,9 @@ Module.register('MMM-text-clock', {
   defaults: {
     compact: false,
     size: 'medium',
+    fullscreen: false,
     showMinutesIndicators: false,
     languageAlternationInterval: 60,
-    size: 'medium',
-    fullscreen: false,
   },
 
   supportedLanguages: ['ar', 'ch', 'de', 'en', 'es', 'fi', 'fr', 'it', 'jp', 'nl', 'tr'],
@@ -71,7 +70,7 @@ Module.register('MMM-text-clock', {
      */
     if (typeof this.showMinutesIndicators !== 'boolean') {
       Log.error(
-        `"${this.showMinutesIndicators}" is not a boolean. Falling back to "false".`
+        `showMinutesIndicators: "${this.showMinutesIndicators}" is not a boolean. Falling back to "false".`
       );
       this.showMinutesIndicators = false;
     }
@@ -120,7 +119,7 @@ Module.register('MMM-text-clock', {
      */
     if (typeof this.languageAlternationInterval !== 'number') {
       Log.error(
-        `"${this.languageAlternationInterval}" is not a number. Falling back to "60".`
+        `languageAlternationInterval: "${this.languageAlternationInterval}" is not a number. Falling back to "60".`
       );
 
       this.languageAlternationInterval = 60;
