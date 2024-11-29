@@ -75,6 +75,7 @@ Config                        | Type                                           |
 `language`                    | `ar \| ch \| de \| en \| es \| fi \| fr \| it \| jp \| nl \| tr` | `en`           | A language or list of languages to alternate through. Overrides config language.
 `languageAlternationInterval` | `number`                                       | `60`           | Interval in minutes at which the language changes (> 0)
 `fullscreen`                  | `boolean`                                      | `false`        | Fullscreen mode takes over your entire screen
+`showMinutesIndicators`       | `boolean`                  | `false`       | Shows a dot at each corner of the clock for every minute past the displayed time (e.g. 18 = quarter + 3 dots). This parameter is ignored in compact mode.
 
 ## Todo
 - [x] Code text clock (English)
