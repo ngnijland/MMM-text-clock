@@ -437,9 +437,9 @@ Module.register('MMM-text-clock', {
         normalizedMinutes = 30;
       }
 
-     // If displaying minutes to the hour : bump the hour one notch
-     displayHour = (minutes >= 33 ? hours + 1 : hours) % 24;
-     
+      // If displaying minutes to the hour : bump the hour one notch
+      displayHour = (minutes >= 33 ? hours + 1 : hours) % 24;
+
     }
 
 
