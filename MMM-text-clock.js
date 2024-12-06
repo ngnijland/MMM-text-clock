@@ -379,8 +379,9 @@ Module.register('MMM-text-clock', {
   displayTime: function (time) {
     const hours = time.getHours();
     const minutes = time.getMinutes();
-
+    let displayHour = 0;
     let normalizedMinutes = 0;
+
     if (this.showMinutesIndicators && !this.compact) {
       // Rounding to the immediately lower 5 minute increment
       if (minutes >= 5 && minutes < 10) {
@@ -406,6 +407,10 @@ Module.register('MMM-text-clock', {
       } else if (minutes >= 30 && minutes < 35) {
         normalizedMinutes = 30;
       }
+
+      // If displaying minutes to the hour : bump the hour one notch
+      displayHour = (normalizedMinutes < 0 ? hours + 1 : hours) % 24;
+
     } else {
       // Original rounding algorithm, rounding to the closest 5 minute increment
       if (minutes >= 3 && minutes <= 7) {
@@ -431,10 +436,12 @@ Module.register('MMM-text-clock', {
       } else if (minutes >= 28 && minutes <= 32) {
         normalizedMinutes = 30;
       }
+
+     // If displaying minutes to the hour : bump the hour one notch
+     displayHour = (minutes >= 33 ? hours + 1 : hours) % 24;
+     
     }
 
-    // If displaying minutes to the hour : bump the hour one notch
-    const displayHour = (normalizedMinutes < 0 ? hours + 1 : hours) % 24;
 
     // use 12 hour format
     const normalizedHour = displayHour > 12 ? displayHour - 12 : displayHour;
